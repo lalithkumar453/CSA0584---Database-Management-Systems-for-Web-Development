@@ -1,0 +1,47 @@
+CREATE DATABASE IF NOT EXISTS demo_tx;
+USE demo_tx;
+
+-- create a transactional table (InnoDB)
+CREATE TABLE IF NOT EXISTS accounts (
+  acc_id INT PRIMARY KEY,
+  holder VARCHAR(50),
+  balance INT
+) ENGINE=InnoDB;
+
+ALTER TABLE accounts ENGINE=InnoDB;
+
+-- START a transaction (alias: BEGIN)
+START TRANSACTION;
+
+-- make changes (not visible to other sessions until COMMIT)
+INSERT INTO accounts VALUES (1, 'Alice', 1000);
+INSERT INTO accounts VALUES (2, 'Bob', 500);
+
+-- If everything is good:
+COMMIT;
+
+-- Or to undo everything since START TRANSACTION:
+-- ROLLBACK;
+
+START TRANSACTION;
+INSERT INTO accounts VALUES (3, 'Carol', 700);
+-- DON'T commit yet
+
+SELECT * FROM accounts;  -- you will NOT see Carol yet (isolation)
+COMMIT;
+SELECT * FROM accounts;  -- now Carol appears
+START TRANSACTION;
+
+INSERT INTO accounts VALUES (4, 'Dan', 300);
+
+SAVEPOINT sp1;    -- name this intermediate point
+
+INSERT INTO accounts VALUES (5, 'Eve', 200);
+
+-- oops — undo only the insertion of Eve, keep Dan:
+ROLLBACK TO SAVEPOINT sp1;
+
+-- Eve row is removed, Dan row remains
+
+-- you can still COMMIT or ROLLBACK entire transaction
+COMMIT;
