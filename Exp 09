@@ -1,0 +1,29 @@
+CREATE DATABASE company3_db;
+USE company3_db;
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    department VARCHAR(30),
+    city VARCHAR(30),
+    salary INT
+);
+INSERT INTO employees (name, department, city, salary) VALUES
+('Amit', 'HR', 'Delhi', 45000),
+('Anita', 'Finance', 'Mumbai', 55000),
+('Alex', 'IT', 'Chennai', 60000),
+('Bhavya', 'IT', 'Bangalore', 72000),
+('Bobby', 'Sales', 'Mumbai', 38000),
+('Chitra', 'HR', 'Delhi', 50000),
+('David', 'Sales', 'Chennai', 30000);
+
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department;
+
+SELECT department, SUM(salary) AS total_salary
+FROM employees
+GROUP BY department
+HAVING SUM(salary) > 100000;
+SELECT name, department, salary
+FROM employees
+ORDER BY salary DESC;
