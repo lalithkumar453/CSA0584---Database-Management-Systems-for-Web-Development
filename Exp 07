@@ -1,0 +1,36 @@
+CREATE DATABASE mycompany_db;
+USE mycompany_db;
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    department VARCHAR(50),
+    city VARCHAR(50),
+    salary INT
+);
+INSERT INTO employees (name, department, city, salary) VALUES
+('Amit', 'HR', 'Delhi', 45000),
+('Anita', 'Finance', 'Mumbai', 55000),
+('Alex', 'IT', 'Chennai', 60000),
+('Bhavya', 'IT', 'Bangalore', 72000),
+('Bobby', 'Sales', 'Mumbai', 38000),
+('Chitra', 'HR', 'Delhi', 50000),
+('David', 'Sales', 'Chennai', 30000);
+SELECT * FROM employees;
+
+SELECT * FROM employees
+WHERE salary > 50000;
+SELECT * FROM employees
+WHERE city = 'Mumbai';
+
+SELECT * FROM employees
+WHERE name LIKE 'A%';
+SELECT * FROM employees
+WHERE name LIKE '%a';
+
+SELECT * FROM employees
+WHERE city = 'Mumbai'
+AND name LIKE 'B%';
+
+SELECT * FROM employees
+WHERE city = 'Mumbai'
+AND name LIKE 'B%';
